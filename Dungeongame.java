@@ -22,23 +22,48 @@ public class Dungeongame {
         dungeon[goldinrow-1][goldincolumn-1]='G';
         
         int steps=0;
+        StringBuilder strb=new StringBuilder();
+        strb.append("("+(adventureinrow+","+adventureincolumn)+")");
+        int i=0;
         if(adventureinrow>goldinrow) {
         	steps+=adventureinrow-goldinrow;
+
+        	while(i<steps) {
+        		i++;
+        		strb.append("-->("+((adventureinrow-i)+","+adventureincolumn)+")");
+        	}
         }
+        
         else {
         	steps+=goldinrow-adventureinrow;
+        	while(i<steps) {
+    		i++;
+    		strb.append("-->("+((adventureinrow+i)+","+adventureincolumn)+")") ;
+    	}
         }
+        int j=0;
+        
         if(adventureincolumn>goldincolumn) {
         	steps+=adventureincolumn-goldincolumn;
+        	while(j<(adventureincolumn-goldincolumn)) {
+        		j++;
+        		strb.append("-->("+(goldinrow+","+(adventureincolumn-j))+")");
+        	}
         }
+        
         else {
         	steps+=goldincolumn-adventureincolumn;
+        	while(j<(goldincolumn-adventureincolumn)) {
+        		j++;
+        		strb.append("-->("+(goldinrow+","+(adventureincolumn+j))+")");
+        	}
         }
         
        
        int monsteps=0;
        if(monsterinrow>goldinrow) {
     	   monsteps+=monsterinrow-goldinrow;
+    	   
        }
        else {
     	   monsteps+=goldinrow-monsterinrow;
@@ -56,6 +81,7 @@ public class Dungeongame {
       else {
     	  System.out.println("No possible solution");
       }
+      System.out.println(strb.toString());
 	}
 
 }
