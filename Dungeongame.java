@@ -12,10 +12,15 @@ public class Dungeongame {
         int adventureinrow=scanner.nextInt();
         int adventureincolumn=scanner.nextInt();
         dungeon[adventureinrow-1][adventureincolumn-1]='A';
+        System.out.println("Enter a monster position :");
+        int monsterinrow=scanner.nextInt();
+        int monsterincolumn=scanner.nextInt();
+        dungeon[monsterinrow][monsterincolumn]='M';
         System.out.println("Enter the gold position :");
         int goldinrow=scanner.nextInt();
         int goldincolumn=scanner.nextInt();
         dungeon[goldinrow-1][goldincolumn-1]='G';
+        
         int steps=0;
         if(adventureinrow>goldinrow) {
         	steps+=adventureinrow-goldinrow;
@@ -29,7 +34,28 @@ public class Dungeongame {
         else {
         	steps+=goldincolumn-adventureincolumn;
         }
-        System.out.println("Minimum number of steps"+steps);
+        
+       
+       int monsteps=0;
+       if(monsterinrow>goldinrow) {
+    	   monsteps+=monsterinrow-goldinrow;
+       }
+       else {
+    	   monsteps+=goldinrow-monsterinrow;
+       }
+       if(monsterincolumn>goldincolumn) {
+    	   monsteps+=monsterincolumn-goldincolumn;
+       }
+       else {
+    	   monsteps+=goldincolumn-monsterincolumn;
+       }
+       
+      if(steps<=monsteps) {
+    	  System.out.println("Minimum number of steps :"+steps);
+      }
+      else {
+    	  System.out.println("No possible solution");
+      }
 	}
 
 }
