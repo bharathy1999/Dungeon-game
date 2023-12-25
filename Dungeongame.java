@@ -83,6 +83,80 @@ public class Dungeongame {
                  return strb.toString();
              
          }
+     static  int  path(Players adventure,Players gold,char array[][]){
+    	   int i=1;
+    	   //topright
+    	   while(adventure.row!=gold.row&&adventure.col!=gold.col&&(adventure.row>=gold.row&&adventure.col<=gold.col)) {
+    		  
+    		   if(array[adventure.row-1-1][adventure.col-1]!='P'&&(adventure.row-1)>=gold.row) {
+    			   adventure.row--;
+    			   i++;
+    			   System.out.println("top");
+    		   }
+    		   
+    		   else if(array[adventure.row-1][adventure.col+1-1]!='P'&&(adventure.col+1)<=gold.col) {
+    			   adventure.col++;
+    			   i++;
+    			   System.out.println("right");
+    		   }
+    		   else {
+    			   break;
+    		   }
+    		   
+    		  System.out.println(adventure.row+"     "+adventure.col);
+    	   }
+    	   //topleft
+        while(adventure.row!=gold.row&&adventure.col!=gold.col&&(adventure.row>=gold.row&&adventure.col>=gold.col)) {
+        	
+ 		   if(array[adventure.row-1-1][adventure.col-1]!='P'&&(adventure.row-1)>=gold.row) {
+ 			   adventure.row--;
+ 			  i++;
+ 		   }
+ 		   else if(array[adventure.row-1][adventure.col-1-1]!='P'&&(adventure.col-1)>=gold.col) {
+ 			   adventure.col--;
+ 			  i++;
+ 		   }
+ 		  else {
+			   break;
+		   }
+ 		  
+    	   }
+        //bottomright
+       while(adventure.row!=gold.row&&adventure.col!=gold.col&&(adventure.row<=gold.row&&adventure.col<=gold.col)) {
+  
+		   if(array[adventure.row+1-1][adventure.col-1]!='P'&&(adventure.row+1)<=gold.row) {
+			   adventure.row++;
+			   i++;
+		   }
+		   else if(array[adventure.row-1][adventure.col-1]!='P'&&(adventure.col+1)<=gold.col) {
+			   adventure.col++;
+			   i++;
+		   }
+		   else {
+			   break;
+		   }
+		   System.out.println(adventure.row+" "+adventure.col);
+		   
+           }
+       //bottomleft
+        while(adventure.row!=gold.row&&adventure.col!=gold.col&&(adventure.row<=gold.row&&adventure.col>=gold.col)) {
+        	
+ 		  if(array[adventure.row+1-1][adventure.col-1]!='P'&&(adventure.row+1)<=gold.row) {
+			   adventure.row++;
+			   i++;
+		   }
+ 		   else if(array[adventure.row-1][adventure.col-1-1]!='P'&&(adventure.col-1)>=gold.col) {
+ 			   adventure.col--;
+ 			  i++;
+ 		   }
+ 		
+ 		else {
+			   break;
+		   }
+             }
+        
+        	return i; 
+         }
 	public static void main(String[] args) {
 		Scanner scanner=new Scanner(System.in);
 		System.out.println("Enter the dimensions of dungeon :");
@@ -94,41 +168,63 @@ public class Dungeongame {
         int adventureinrow=scanner.nextInt();
         int adventureincolumn=scanner.nextInt();
         Players adventure=new Players(adventureinrow,adventureincolumn);
-        
-        System.out.println("Enter the monster position :");
-        int monsterinrow=scanner.nextInt();
-        int monsterincolumn=scanner.nextInt();
-        Players monster=new Players(monsterinrow,monsterincolumn);
-        
-        System.out.println("Enter the trigger position :");
-        int triggerinrow=scanner.nextInt();
-        int triggerincolumn=scanner.nextInt();
-        Players trigger=new Players(triggerinrow,triggerincolumn);
+//        
+//        System.out.println("Enter the monster position :");
+//        int monsterinrow=scanner.nextInt();
+//        int monsterincolumn=scanner.nextInt();
+//        Players monster=new Players(monsterinrow,monsterincolumn);
+//        
+//        System.out.println("Enter the trigger position :");
+//        int triggerinrow=scanner.nextInt();
+//        int triggerincolumn=scanner.nextInt();
+//        Players trigger=new Players(triggerinrow,triggerincolumn);
         
         System.out.println("Enter the gold position :");
         int goldinrow=scanner.nextInt();
         int goldincolumn=scanner.nextInt();
         Players gold=new Players(goldinrow,goldincolumn);
         
+        System.out.println("enter number of pits");
+        int numberofpits=scanner.nextInt();
+        for(int i=0;i<numberofpits;i++) {
+             int rowofpits=scanner.nextInt();
+             int colofbits=scanner.nextInt();
+             dungeon[rowofpits-1][colofbits-1]='P';
+        }
+        
+       int steps=path(adventure,gold,dungeon);
+       if(steps>1) {
+    	   System.out.println("Minimum steps:"+steps);
+       }
+       else {
+    	   System.out.println("No possible solution");
+       }
 
-       int stepsofadventure=stepcalculate(adventure,gold);
-       int stepsofmonster=stepcalculate(monster,gold);
-       int stepsadventuretotrigger=stepcalculate(adventure,trigger);
-       int stepstriggertomonster=stepcalculate(trigger,monster);
-       int stepsmonstertogold=stepcalculate(monster,gold);
-     
-      if(stepsofadventure<=stepsofmonster) {
-    	  System.out.println("Minimum number of steps :"+stepsofadventure); 
-    	  System.out.println(footprint(stepsofadventure,adventure,gold,monster));
-      }
-      else if(stepsadventuretotrigger<=stepstriggertomonster){
-            System.out.println(stepsadventuretotrigger+stepstriggertomonster+stepsmonstertogold);
-      }
-      else {
-    	  System.out.println("No possible solution");  
-      }
-      
- 
+//       int stepsofadventure=stepcalculate(adventure,gold);
+//       int stepsofmonster=stepcalculate(monster,gold);
+//       int stepsadventuretotrigger=stepcalculate(adventure,trigger);
+//       int stepstriggertomonster=stepcalculate(trigger,monster);
+//       int stepsmonstertogold=stepcalculate(monster,gold);
+//       int stepstriggertogold=stepcalculate(trigger,gold);
+       
+       
+//      if(stepsofadventure<=stepsofmonster) {
+//    	  System.out.println("Minimum number of steps :"+stepsofadventure); 
+//    	  System.out.println(footprint(stepsofadventure,adventure,gold,monster));
+//      }
+//      else if(stepsadventuretotrigger<=stepstriggertomonster){
+//    	  if(stepstriggertogold<stepstriggertomonster) {
+//    		  System.out.println(stepsadventuretotrigger+stepsmonstertogold);
+//    	  }
+//    	  else {
+//            System.out.println(stepsadventuretotrigger+stepstriggertomonster+stepsmonstertogold);
+//      }
+//    	  }
+//      else {
+//    	  System.out.println("No possible solution");  
+//      }
+//      
+                
 	}
 
 }
