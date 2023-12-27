@@ -1,17 +1,4 @@
 package com.bharathy.show;
-
-public class Players {  
-        int row;
-        int col;
-        Players(int row,int col){
-        	this.row=row;
-        	this.col=col;
-        }
-}
-
-
-
-package com.bharathy.show;
 import java.util.Scanner;
 public class Dungeongame {
          static int stepcalculate(Players start,Players target) {
@@ -83,52 +70,53 @@ public class Dungeongame {
                  return strb.toString();
              
          }
-     static  int  path(Players adventure,Players gold,char array[][]){
-    	   int i=1;
+     static  int  path(Players adventure,Players gold,char array[][],Players monster){
+    	   int i=0;
     	   //topright
-    	   while(adventure.row!=gold.row&&adventure.col!=gold.col&&(adventure.row>=gold.row&&adventure.col<=gold.col)) {
+    	   while(adventure.row!=gold.row||adventure.col!=gold.col&&(adventure.row>=gold.row&&adventure.col<=gold.col)) {
     		  
-    		   if(array[adventure.row-1-1][adventure.col-1]!='P'&&(adventure.row-1)>=gold.row) {
+    		   if(array[adventure.row-1-1][adventure.col-1]!='P'&&adventure.row>gold.row&&!(monster.row<adventure.row&&monster.col==adventure.col)) {
     			   adventure.row--;
-    			   i++;
-    			   System.out.println("top");
+    			  
+    			   System.out.println("top ");
     		   }
     		   
-    		   else if(array[adventure.row-1][adventure.col+1-1]!='P'&&(adventure.col+1)<=gold.col) {
+    		   else if(array[adventure.row-1][adventure.col+1-1]!='P'&&adventure.col<gold.col&&!(monster.col>adventure.col&&monster.row==adventure.row)) {
     			   adventure.col++;
-    			   i++;
+    			   
     			   System.out.println("right");
     		   }
     		   else {
     			   break;
     		   }
-    		   
+    		   i++;
     		  System.out.println(adventure.row+"     "+adventure.col);
     	   }
     	   //topleft
-        while(adventure.row!=gold.row&&adventure.col!=gold.col&&(adventure.row>=gold.row&&adventure.col>=gold.col)) {
+        while(adventure.row!=gold.row||adventure.col!=gold.col&&(adventure.row>=gold.row&&adventure.col>=gold.col)) {
         	
- 		   if(array[adventure.row-1-1][adventure.col-1]!='P'&&(adventure.row-1)>=gold.row) {
+ 		   if(array[adventure.row-1-1][adventure.col-1]!='P'&&adventure.row>=gold.row&&!(monster.row<adventure.row&&monster.col==adventure.col)) {
  			   adventure.row--;
  			  i++;
  		   }
- 		   else if(array[adventure.row-1][adventure.col-1-1]!='P'&&(adventure.col-1)>=gold.col) {
+ 		   else if(array[adventure.row-1][adventure.col-1-1]!='P'&&adventure.col>=gold.col&&!(monster.col<adventure.col&&monster.row==adventure.row)) {
  			   adventure.col--;
  			  i++;
  		   }
  		  else {
 			   break;
 		   }
+ 		  System.out.println(adventure.row+"     "+adventure.col);
  		  
     	   }
         //bottomright
-       while(adventure.row!=gold.row&&adventure.col!=gold.col&&(adventure.row<=gold.row&&adventure.col<=gold.col)) {
+       while(adventure.row!=gold.row||adventure.col!=gold.col&&(adventure.row<=gold.row&&adventure.col<=gold.col)) {
   
-		   if(array[adventure.row+1-1][adventure.col-1]!='P'&&(adventure.row+1)<=gold.row) {
+		   if(array[adventure.row+1-1][adventure.col-1]!='P'&&adventure.row<=gold.row&&!(monster.row>adventure.row&&monster.col==adventure.col)) {
 			   adventure.row++;
 			   i++;
 		   }
-		   else if(array[adventure.row-1][adventure.col-1]!='P'&&(adventure.col+1)<=gold.col) {
+		   else if(array[adventure.row-1][adventure.col-1]!='P'&&adventure.col<=gold.col&&!(monster.col>adventure.col&&monster.row==adventure.row)) {
 			   adventure.col++;
 			   i++;
 		   }
@@ -139,13 +127,13 @@ public class Dungeongame {
 		   
            }
        //bottomleft
-        while(adventure.row!=gold.row&&adventure.col!=gold.col&&(adventure.row<=gold.row&&adventure.col>=gold.col)) {
+        while(adventure.row!=gold.row||adventure.col!=gold.col&&(adventure.row<=gold.row&&adventure.col>=gold.col)) {
         	
- 		  if(array[adventure.row+1-1][adventure.col-1]!='P'&&(adventure.row+1)<=gold.row) {
+ 		  if(array[adventure.row+1-1][adventure.col-1]!='P'&&adventure.row<=gold.row&&!(monster.row>adventure.row&&monster.col==adventure.col)) {
 			   adventure.row++;
 			   i++;
 		   }
- 		   else if(array[adventure.row-1][adventure.col-1-1]!='P'&&(adventure.col-1)>=gold.col) {
+ 		   else if(array[adventure.row-1][adventure.col-1-1]!='P'&&adventure.col>=gold.col&&!(monster.col<adventure.col&&monster.row==adventure.row)) {
  			   adventure.col--;
  			  i++;
  		   }
@@ -168,11 +156,11 @@ public class Dungeongame {
         int adventureinrow=scanner.nextInt();
         int adventureincolumn=scanner.nextInt();
         Players adventure=new Players(adventureinrow,adventureincolumn);
-//        
-//        System.out.println("Enter the monster position :");
-//        int monsterinrow=scanner.nextInt();
-//        int monsterincolumn=scanner.nextInt();
-//        Players monster=new Players(monsterinrow,monsterincolumn);
+        
+        System.out.println("Enter the monster position :");
+        int monsterinrow=scanner.nextInt();
+        int monsterincolumn=scanner.nextInt();
+        Players monster=new Players(monsterinrow,monsterincolumn);
 //        
 //        System.out.println("Enter the trigger position :");
 //        int triggerinrow=scanner.nextInt();
@@ -192,10 +180,12 @@ public class Dungeongame {
              dungeon[rowofpits-1][colofbits-1]='P';
         }
         
-       int steps=path(adventure,gold,dungeon);
-       if(steps>1) {
+       int steps=path(adventure,gold,dungeon,monster);
+     
+    	   if(steps<=stepcalculate(monster,gold)) {
     	   System.out.println("Minimum steps:"+steps);
-       }
+              }
+       
        else {
     	   System.out.println("No possible solution");
        }
