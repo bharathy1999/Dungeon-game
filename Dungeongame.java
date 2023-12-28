@@ -87,7 +87,12 @@ public class Dungeongame {
     			   System.out.println("right");
     		   }
     		   else {
-    			   break;
+    			    if(adventure.row<array.length) {
+    			    	adventure.row++;
+    			    }
+    			    else {
+    			    	break;
+    			    }
     		   }
     		   i++;
     		  System.out.println(adventure.row+"     "+adventure.col);
@@ -104,7 +109,12 @@ public class Dungeongame {
  			  i++;
  		   }
  		  else {
-			   break;
+ 			 if(adventure.row>0) {
+			    	adventure.row--;
+			    }
+			    else {
+			    	break;
+			    }
 		   }
  		  System.out.println(adventure.row+"     "+adventure.col);
  		  
@@ -121,7 +131,12 @@ public class Dungeongame {
 			   i++;
 		   }
 		   else {
-			   break;
+			   if(adventure.col<array[0].length) {
+			    	adventure.col++;
+			    }
+			    else {
+			    	break;
+			    }
 		   }
 		   System.out.println(adventure.row+" "+adventure.col);
 		   
@@ -139,7 +154,12 @@ public class Dungeongame {
  		   }
  		
  		else {
-			   break;
+ 			 if(adventure.col>0) {
+			    	adventure.col--;
+			    }
+			    else {
+			    	break;
+			    }
 		   }
              }
         
@@ -161,11 +181,11 @@ public class Dungeongame {
         int monsterinrow=scanner.nextInt();
         int monsterincolumn=scanner.nextInt();
         Players monster=new Players(monsterinrow,monsterincolumn);
-//        
-//        System.out.println("Enter the trigger position :");
-//        int triggerinrow=scanner.nextInt();
-//        int triggerincolumn=scanner.nextInt();
-//        Players trigger=new Players(triggerinrow,triggerincolumn);
+        
+        System.out.println("Enter the trigger position :");
+        int triggerinrow=scanner.nextInt();
+        int triggerincolumn=scanner.nextInt();
+        Players trigger=new Players(triggerinrow,triggerincolumn);
         
         System.out.println("Enter the gold position :");
         int goldinrow=scanner.nextInt();
@@ -180,41 +200,38 @@ public class Dungeongame {
              dungeon[rowofpits-1][colofbits-1]='P';
         }
         
-       int steps=path(adventure,gold,dungeon,monster);
+        int monstertoadventure=stepcalculate(adventure,monster);
+        int steps=path(adventure,gold,dungeon,monster);
+        int stepsadventuretotrigger=path(adventure,trigger,dungeon,monster);
      
     	   if(steps<=stepcalculate(monster,gold)) {
     	   System.out.println("Minimum steps:"+steps);
               }
        
        else {
+    	   if(stepsadventuretotrigger<=monstertoadventure) {
+    		   System.out.println("Minimum steps:"+(monstertoadventure+stepsadventuretotrigger));
+    	   }
+    	   else {
     	   System.out.println("No possible solution");
        }
 
-//       int stepsofadventure=stepcalculate(adventure,gold);
-//       int stepsofmonster=stepcalculate(monster,gold);
-//       int stepsadventuretotrigger=stepcalculate(adventure,trigger);
-//       int stepstriggertomonster=stepcalculate(trigger,monster);
-//       int stepsmonstertogold=stepcalculate(monster,gold);
-//       int stepstriggertogold=stepcalculate(trigger,gold);
+       }
+     
        
        
-//      if(stepsofadventure<=stepsofmonster) {
-//    	  System.out.println("Minimum number of steps :"+stepsofadventure); 
-//    	  System.out.println(footprint(stepsofadventure,adventure,gold,monster));
-//      }
-//      else if(stepsadventuretotrigger<=stepstriggertomonster){
-//    	  if(stepstriggertogold<stepstriggertomonster) {
-//    		  System.out.println(stepsadventuretotrigger+stepsmonstertogold);
-//    	  }
-//    	  else {
-//            System.out.println(stepsadventuretotrigger+stepstriggertomonster+stepsmonstertogold);
-//      }
-//    	  }
-//      else {
-//    	  System.out.println("No possible solution");  
-//      }
-//      
+
                 
 	}
 
+}
+package com.bharathy.show;
+
+public class Players {  
+        int row;
+        int col;
+        Players(int row,int col){
+        	this.row=row;
+        	this.col=col;
+        }
 }
